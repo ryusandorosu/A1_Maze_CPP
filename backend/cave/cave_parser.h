@@ -6,9 +6,10 @@
 
 class CaveParser : public CommonParser {
  public:
-  CaveParser(const string& filename) : filename(filename){};
+  CaveParser(const string& filename) : filename(filename) {};
   bool readCave();
   void drawField();
+  Matrix getField() { return field; }
 
  private:
   string filename;

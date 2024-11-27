@@ -5,6 +5,11 @@ TEST(CAVE_READ_INCORRECT, not_existing_file) {
   EXPECT_EQ(caveParser.readCave(), false);
 }
 
+TEST(CAVE_READ_INCORRECT, no_file_specified) {
+  CaveParser caveParser("");
+  EXPECT_EQ(caveParser.readCave(), false);
+}
+
 TEST(CAVE_READ_INCORRECT, wrong_extension) {
   CaveParser caveParser("files/images/cave_00_4x4.jpg");
   EXPECT_EQ(caveParser.readCave(), false);
@@ -30,10 +35,10 @@ TEST(CAVE_READ_INCORRECT, absent_column) {
   EXPECT_EQ(caveParser.readCave(), false);
 }
 
-// TEST(CAVE_READ_INCORRECT, wrong_element_number) {
-//   CaveParser caveParser("files/incorrect/cave/wrong_element_number.txt");
-//   EXPECT_EQ(caveParser.readCave(), false);
-// }
+TEST(CAVE_READ_INCORRECT, wrong_element_number) {
+  CaveParser caveParser("files/incorrect/cave/wrong_element_number.txt");
+  EXPECT_EQ(caveParser.readCave(), false);
+}
 
 TEST(CAVE_READ_INCORRECT, wrong_element_letter) {
   CaveParser caveParser("files/incorrect/cave/wrong_element_letter.txt");

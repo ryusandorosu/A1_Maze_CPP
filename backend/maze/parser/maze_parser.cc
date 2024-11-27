@@ -1,7 +1,7 @@
-#include "maze_parser.h"
+#include "../maze.h"
 
 // Функция для чтения стен
-bool MazeParser::readWalls(ifstream& file, Matrix& walls, int rows, int cols) {
+bool Maze::readWalls(ifstream& file, Matrix& walls, int rows, int cols) {
   walls.resize(rows, vector<int>(cols));
 
   for (int i = 0; i < rows; ++i) {
@@ -10,6 +10,12 @@ bool MazeParser::readWalls(ifstream& file, Matrix& walls, int rows, int cols) {
         cerr << "Ошибка чтения данных стен." << endl;
         return false;
       }
+      if (walls[i][j] != 0 && walls[i][j] != 1) {
+        cerr << "Неизвестное значение в матрице 2 (" << i << ", " << j
+             << "): " << walls[i][j] << endl;
+        return false;
+        // проверка вертикальных стен
+      }
     }
   }
 
@@ -17,8 +23,8 @@ bool MazeParser::readWalls(ifstream& file, Matrix& walls, int rows, int cols) {
 }
 
 // Функция для подсчета строк в файле
-bool MazeParser::validateRowCount(const string& filename, int expectedRows,
-                                  int& rowsInMatrix1, int& rowsInMatrix2) {
+bool Maze::validateRowCount(const string& filename, int expectedRows,
+                            int& rowsInMatrix1, int& rowsInMatrix2) {
   ifstream file(filename);
   if (!file.is_open()) {
     return false;
@@ -63,12 +69,12 @@ bool MazeParser::validateRowCount(const string& filename, int expectedRows,
 }
 
 // метод-пустышка чтобы не было ошибок при компиляции
-bool MazeParser::validateRowCount(const string& filename, int expectedRows) {
+bool Maze::validateRowCount(const string& filename, int expectedRows) {
   int rowsInMatrix1 = 0, rowsInMatrix2 = 0;
   return validateRowCount(filename, expectedRows, rowsInMatrix1, rowsInMatrix2);
 }
 
-bool MazeParser::validateColumnCount(ifstream& file, int expectedCols) {
+bool Maze::validateColumnCount(ifstream& file, int expectedCols) {
   string line;
   while (getline(file, line)) {
     istringstream iss(line);

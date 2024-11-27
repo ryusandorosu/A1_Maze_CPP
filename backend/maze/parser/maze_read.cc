@@ -1,9 +1,9 @@
-#include "maze_parser.h"
+#include "../maze.h"
 
-bool MazeParser::readMaze() {
-  MazeParser mazeParser(filename);
+bool Maze::readMaze() {
+  Maze mazeParser(filename);
 
-  // Чтение и проверка данных, чтение горизонтальных стен
+  // Чтение и проверка данных, чтение первой матрицы
   if (!mazeParser.readFile(filename, verticalWalls, rows, cols)) {
     return false;
   }

@@ -1,18 +1,11 @@
-#include "class_solver.h"
-
-MazeSolver::MazeSolver(const Matrix& verticalWalls,
-                       const Matrix& horizontalWalls, int rows, int cols)
-    : verticalWalls(verticalWalls),
-      horizontalWalls(horizontalWalls),
-      rows(rows),
-      cols(cols) {
-  solutionMatrix.resize(rows, vector<int>(cols, 0));
-}
+#include "../maze.h"
 
 // Метод для поиска решения (BFS)
-bool MazeSolver::solveMaze(const Coord& start, const Coord& end) {
+bool Maze::solveMaze(const Coord& start, const Coord& end) {
   BoolMatrix visited(rows, vector<bool>(cols, false));
   CoordMatrix predecessor(rows, vector<Coord>(cols, make_pair(-1, -1)));
+
+  solutionMatrix.resize(rows, vector<int>(cols, 0));
 
   // Стартовая точка
   queue<Coord> pathQueue;
@@ -55,8 +48,8 @@ bool MazeSolver::solveMaze(const Coord& start, const Coord& end) {
 }
 
 // Вспомогательный метод для поиска пути (BFS)
-void MazeSolver::reconstructPath(const CoordMatrix& predecessor,
-                                 const Coord& start, const Coord& end) {
+void Maze::reconstructPath(const CoordMatrix& predecessor, const Coord& start,
+                           const Coord& end) {
   Coord current = end;
   while (current != start) {
     solutionMatrix[current.first][current.second] = 1;
@@ -66,7 +59,7 @@ void MazeSolver::reconstructPath(const CoordMatrix& predecessor,
 }
 
 // Проверка, можно ли двигаться в клетку (с учётом стен)
-bool MazeSolver::canMove(int x, int y, int nx, int ny) const {
+bool Maze::canMove(int x, int y, int nx, int ny) const {
   // Проверяем, находимся ли мы внутри лабиринта
   if (nx < 0 || ny < 0 || nx >= rows || ny >= cols) {
     return false;
@@ -79,4 +72,10 @@ bool MazeSolver::canMove(int x, int y, int nx, int ny) const {
     return horizontalWalls[min(x, nx)][y] == 0;
   }
   return false;
+}
+
+void Maze::clearSolutionMatrix() {
+  for (auto& row : solutionMatrix) {
+    row.assign(row.size(), 0);
+  }
 }

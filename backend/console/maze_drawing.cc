@@ -1,4 +1,4 @@
-#include "../maze/main/maze_parser.h"
+#include "../maze/maze.h"
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
@@ -8,15 +8,12 @@ int main(int argc, char* argv[]) {
 
   string filename = argv[1];
 
-  /* этот участок прописать на фронте */
-  MazeParser mazeParser(filename);
+  Maze mazeParser(filename);
 
   if (!mazeParser.readMaze()) {
     return 1;
   }
-  /* до сюда */
 
-  // и за основу для отрисовки в ui взять этот метод:
   mazeParser.drawMaze();
   return 0;
 }

@@ -44,6 +44,12 @@ bool CommonParser::readFieldData(ifstream& file, Matrix& field, int fileRows,
         cerr << "Ошибка чтения данных поля." << endl;
         return false;
       }
+      if (field[i][j] != 0 && field[i][j] != 1) {
+        cerr << "Неизвестное значение в матрице (" << i << ", " << j
+             << "): " << field[i][j] << endl;
+        return false;
+        // проверка горизонтальных стен и поля пещеры
+      }
     }
   }
 
@@ -119,4 +125,4 @@ bool CommonParser::readFile(const string& filename, Matrix& field, int& rows,
 bool CommonParser::isBlankLine(const string& line) {
   return line.find_first_not_of(" \t\r") == string::npos;
 }
-//используется в мейзе
+// используется в мейзе

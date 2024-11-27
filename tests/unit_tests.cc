@@ -8,27 +8,24 @@ bool compareMatrices(const Matrix& matrix1, const Matrix& matrix2) {
   return true;
 }
 
-bool checkNoIsolatedAreas(const MazeGenerator& generator) {
+bool checkNoIsolatedAreas(const Maze& generator) {
   string filename = "isolation_areas_check.txt";
   generator.saveMazeToFile(filename);
 
-  MazeParser parser(filename);
+  Maze parser(filename);
   if (!parser.readMaze()) {
     return false;
   }
 
-  Matrix VW = parser.getVerticalWalls();
-  Matrix HW = parser.getHorizontalWalls();
   int rows = parser.getRows();
   int cols = parser.getCols();
-  MazeSolver solver(VW, HW, rows, cols);
 
   // Проверка для каждой клетки
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       for (int ni = 0; ni < rows; ++ni) {
         for (int nj = 0; nj < cols; ++nj) {
-          if (!solver.solveMaze({i, j}, {ni, nj})) {
+          if (!parser.solveMaze({i, j}, {ni, nj})) {
             cerr << "error at: start point {" << i << ", " << j
                  << "}, end point {" << ni << ", " << nj << "}" << endl;
             return false;  // Есть изолированные области

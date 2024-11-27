@@ -2,6 +2,7 @@ print_cave
 print_maze
 gen_maze
 solve_maze
+build
 cave_test
 maze_test
 testexe
@@ -12,7 +13,13 @@ debug
 report
 misc/images
 isolation_areas_check.txt
+front/build/
+frontend/build/
+cpp_maze_dist
+maze_cpp
+777.txt
 
+.DS_Store
 .idea
 .clang-format
 cmake-build-debug
@@ -20,6 +27,12 @@ cmake-build-debug
 CMakeFiles
 CMakeCache.txt
 *.cmake
+*.user.*
+build-*
+*_build*
+*_autogen
+.qt
+*.tgz
 
 # Prerequisites
 *.d

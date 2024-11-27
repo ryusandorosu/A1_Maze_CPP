@@ -186,5 +186,3 @@ TEST(CAVE_READ_CORRECT, cave_03_50x50) {
     EXPECT_EQ(output.str(), expectedOutput);
   }
 }
-
-// создать разные случаи cave_incorrect

@@ -1,6 +1,6 @@
-#include "class_gen.h"
+#include "../maze.h"
 
-MazeGenerator::MazeGenerator(int r, int c) : rows(r), cols(c) {
+Maze::Maze(int r, int c) : rows(r), cols(c) {
   if (rows < 0 || cols < 0) {
     return;
   }
@@ -9,7 +9,7 @@ MazeGenerator::MazeGenerator(int r, int c) : rows(r), cols(c) {
   horizontalWalls.resize(rows, vector<int>(cols, 0));
 }
 
-bool MazeGenerator::checkDimensions() {
+bool Maze::checkDimensions() {
   if (rows < MIN_SIZE || cols < MIN_SIZE || rows > MAX_SIZE ||
       cols > MAX_SIZE) {
     cerr << "Указаны неверные параметры для генерации: " << rows << "x" << cols
@@ -21,7 +21,7 @@ bool MazeGenerator::checkDimensions() {
   return true;
 }
 
-void MazeGenerator::generateMaze() {
+void Maze::generateMaze() {
   for (int i = 0; i < rows; i++) {
     if (i == rows - 1) {
       createVerticalWalls(i);
@@ -34,7 +34,7 @@ void MazeGenerator::generateMaze() {
   }
 }
 
-void MazeGenerator::createUniqueSet() {
+void Maze::createUniqueSet() {
   for (auto &element : currentRow) {
     if (element == 0) {
       element = ++setID;
@@ -42,14 +42,14 @@ void MazeGenerator::createUniqueSet() {
   }
 }
 
-bool MazeGenerator::randomBool() {
+bool Maze::randomBool() {
   static random_device rd;
   static mt19937 generator(rd());
   static uniform_int_distribution<> distribution(0, 1);
   return distribution(generator) == 1;
 }
 
-void MazeGenerator::mergeSet(int current, int next) {
+void Maze::mergeSet(int current, int next) {
   for (int i = 0; i < cols; i++) {
     if (currentRow[i] == next) {
       currentRow[i] = current;
@@ -57,7 +57,7 @@ void MazeGenerator::mergeSet(int current, int next) {
   }
 }
 
-void MazeGenerator::createVerticalWalls(int row) {
+void Maze::createVerticalWalls(int row) {
   if (row == 0) {
     createUniqueSet();
   }
@@ -72,7 +72,7 @@ void MazeGenerator::createVerticalWalls(int row) {
   verticalWalls[row][cols - 1] = 1;
 }
 
-bool MazeGenerator::countIndeticalSet(int value) {
+bool Maze::countIndeticalSet(int value) {
   int count = 0;
   for (int i = 0; i < cols; i++) {
     if (currentRow[i] == value) {
@@ -82,7 +82,7 @@ bool MazeGenerator::countIndeticalSet(int value) {
   return count > 1 ? true : false;
 }
 
-int MazeGenerator::countCellsWithoutHWalls(int value, int row) {
+int Maze::countCellsWithoutHWalls(int value, int row) {
   int count = 0;
   for (int i = 0; i < cols; i++) {
     if (currentRow[i] == value && horizontalWalls[row][i] == 0) {
@@ -92,7 +92,7 @@ int MazeGenerator::countCellsWithoutHWalls(int value, int row) {
   return count;
 }
 
-void MazeGenerator::createHorizontalWalls(int row) {
+void Maze::createHorizontalWalls(int row) {
   for (int i = 0; i < cols; i++) {
     bool choise = randomBool();
     bool identicalSet = countIndeticalSet(currentRow[i]);
@@ -105,7 +105,7 @@ void MazeGenerator::createHorizontalWalls(int row) {
   }
 }
 
-void MazeGenerator::duplicateCurrentLine(int row) {
+void Maze::duplicateCurrentLine(int row) {
   for (int i = 0; i < cols; i++) {
     setID++;
     if (horizontalWalls[row][i] == 1) {
@@ -114,7 +114,7 @@ void MazeGenerator::duplicateCurrentLine(int row) {
   }
 }
 
-void MazeGenerator::lastLineCheck() {
+void Maze::lastLineCheck() {
   for (int i = 0; i < cols - 1; i++) {
     if (currentRow[i] != currentRow[i + 1]) {
       verticalWalls[rows - 1][i] = 0;
