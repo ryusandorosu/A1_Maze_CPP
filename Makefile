@@ -128,7 +128,7 @@ xdist:
 	@tar -xvzf $(ARCHNAME).tgz
 
 dvi:
-	@open read.md
+	@open README.md
 
 memtest:
 	@make test >> /dev/null
